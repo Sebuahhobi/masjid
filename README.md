@@ -46,15 +46,27 @@ Sistem ini didukung penuh oleh integrasi *real-time* ke **Google Apps Script** d
 
 ## ⚙️ Cara Menggunakan (Setup Cepat)
 
-### 1. Download / Clone Repository Ini
+### 1. Deploy Backend (Google Apps Script)
+
+Sebelum melakukan apapun, Anda **wajib** men-deploy kode backend terlebih dahulu ke Google Apps Script:
+
+1. Buka [Google Apps Script](https://script.google.com/) lalu buat project baru.
+2. Salin semua file yang ada di folder **`Code Gas/`** ke dalam project tersebut (`Auth.gs`, `Code.gs`, `Config.gs`, `Helpers.gs`, `Model.gs`, `Setup.gs`).
+3. Klik **Deploy** > **New Deployment**.
+4. Pilih tipe **Web App**, atur akses ke **Anyone**, lalu klik **Deploy**.
+5. **Salin URL** deployment yang diberikan (berakhiran `/exec`). URL ini akan digunakan pada langkah berikutnya.
+
+> ⚠️ Pastikan Anda mengizinkan akses (_authorize_) saat diminta oleh Google.
+
+### 2. Download / Clone Repository Ini
 
 ```bash
 git clone https://github.com/username/masjidv2.git
 ```
 
-### 2. Konfigurasi URL API Backend
+### 3. Konfigurasi URL API Backend
 
-Buka file **`config.js`** yang ada di *root* folder, lalu ubah nilai `API_URL` menjadi URL deployment Google Apps Script milik Anda sendiri:
+Buka file **`config.js`** yang ada di *root* folder, lalu ubah nilai `API_URL` menjadi URL deployment Google Apps Script yang Anda salin di **Langkah 1**:
 
 ```javascript
 window.APP_CONFIG = {
@@ -69,11 +81,25 @@ window.APP_CONFIG = {
 > 4. Salin URL yang diberikan (berakhiran `/exec`).
 > 5. Tempelkan URL tersebut pada `API_URL` di atas.
 
-### 3. Upload / Hosting
+### 4. Upload / Hosting
 
-Upload **seluruh isi folder ini** ke layanan hosting statis pilihan Anda (contoh: GitHub Pages, Netlify, Vercel, Cloudflare Pages, dll). Pastikan layanan hosting mendukung **SPA routing** (semua path diarahkan ke `index.html`).
+Upload **seluruh isi folder ini** (kecuali folder `Code Gas/`) ke layanan hosting statis pilihan Anda. Pastikan layanan hosting mendukung **SPA routing** (semua path diarahkan ke `index.html`).
 
-**Selesai!** Website masjid Anda kini sudah online. 🎉
+### 5. Inisialisasi Database (Setup Awal — Hanya Sekali!)
+
+Setelah website Anda online, buka halaman setup di browser:
+
+```
+https://domain-anda.com/setup
+```
+
+> **Contoh:** [https://masjidv2.waavis.com/setup](https://masjidv2.waavis.com/setup)
+
+Halaman ini akan **membuat semua tabel (Sheet) yang dibutuhkan** secara otomatis di Google Spreadsheet serta mengatur konfigurasi awal (akun admin, dll).
+
+> ⚠️ **Halaman Setup hanya perlu dijalankan SEKALI** saat pertama kali instalasi. Setelah setup berhasil, Anda bisa langsung mengakses dashboard admin melalui `/login`.
+
+**Selesai!** Website masjid Anda kini sudah online dan siap digunakan. 🎉
 
 <br/>
 
@@ -84,12 +110,20 @@ Upload **seluruh isi folder ini** ke layanan hosting statis pilihan Anda (contoh
 ├── config.js           # ⬅️ EDIT FILE INI untuk set URL API Anda
 ├── _redirects          # Aturan routing SPA
 ├── logo.png            # Logo default
-└── assets/             # CSS & JS yang telah dioptimasi
-    ├── index-xxx.css
-    ├── index-xxx.js
-    ├── home-xxx.js
-    ├── dashboard-xxx.js
-    └── ...
+├── assets/             # CSS & JS yang telah dioptimasi
+│   ├── index-xxx.css
+│   ├── index-xxx.js
+│   ├── home-xxx.js
+│   ├── dashboard-xxx.js
+│   └── ...
+└── Code Gas/           # 📦 Kode backend Google Apps Script
+    ├── appsscript.json
+    ├── Auth.gs
+    ├── Code.gs
+    ├── Config.gs
+    ├── Helpers.gs
+    ├── Model.gs
+    └── Setup.gs
 ```
 
 ---
